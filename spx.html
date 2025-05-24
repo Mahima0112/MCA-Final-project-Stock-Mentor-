@@ -1,0 +1,121 @@
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <title>S&P Forecast</title>
+  <link rel="icon" type="image/x-icon" href="static/images/logo.svg">
+  <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+
+        <style>
+            /* —— Sticky metallic‑black navbar —— */
+            .navbar-sticky{
+              position:sticky; top:0; z-index:1030;
+              background:linear-gradient(145deg,#000000 0%,#1c1c1c 40%,#3a3a3a 100%); /* “brushed metal” */
+              border-bottom:1px solid #555;
+              padding:.6rem 1rem;
+              box-shadow:0 3px 10px rgba(0,0,0,.55);
+            }
+          
+            .nav-links a{
+              display:inline-block;              /* so transforms don’t affect neighbours */
+              margin-right:1rem;
+              font-weight:600;
+              text-decoration:none;
+              color:#f1f4f8;
+              transition:transform .25s ease,      /* smooth grow‑shrink */
+                         text-shadow .25s ease;
+            }
+          
+            /* grow + subtle glow on hover / focus */
+            .nav-links a:hover,
+            .nav-links a:focus{
+              transform:scale(1.18);              /* 18 % larger */
+              text-shadow:0 0 6px rgba(95,168,255,.9);
+            }
+          
+            /* —— Scrolling disclaimer (unchanged) —— */
+            .disclaimer-strip{
+              background:#fff3cd;
+              color:#856404;
+              overflow:hidden;
+              white-space:nowrap;
+            }
+            .disclaimer-text{
+              display:inline-block;
+              padding-left:100%;
+              animation:scroll 18s linear infinite;
+            }
+            @keyframes scroll{
+              0%{transform:translateX(0)}
+              100%{transform:translateX(-100%)}
+            }
+          </style>
+          
+</head>
+
+<body class="container py-4">
+
+  <!-- Sticky navbar -->
+  <nav class="navbar-sticky">
+    <div class="nav-links">
+      <a href="{{ url_for('index') }}">🏠 Home</a>
+      <a href="{{ url_for('spx_forecast') }}">🔁 S&P Page</a>
+      <a href="{{ url_for('ftse_forecast') }}">FTSE Page</a>
+      <a href="{{ url_for('dax_forecast') }}">DAX Page</a>
+      <a href="{{ url_for('nikkei_forecast') }}">Nikkei Page</a>
+    </div>
+  </nav>
+
+  <!-- Continuous disclaimer just below navbar -->
+  <div class="disclaimer-strip mb-3">
+    <span class="disclaimer-text">
+      Forecasts are for informational purposes only and should not be considered financial advice. Past performance is not indicative of future results.
+    </span>
+  </div>
+
+  <h2>S&P Forecast</h2>
+
+  <form method="post" class="row gy-2 gx-3 align-items-center mb-4">
+    <div class="col-auto">
+      <label class="form-label" for="end_date">Forecast to:</label>
+      <input type="date" class="form-control" id="end_date" name="end_date" required>
+    </div>
+    <div class="col-auto">
+      <label class="form-label" for="amount">Amount to invest (£):</label>
+      <input type="number" class="form-control" id="amount" name="amount"
+             step="0.01" min="0" required>
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary mt-4">Forecast</button>
+    </div>
+  </form>
+
+  {% if amount is not none %}
+    <div class="alert alert-info">
+      <strong>Projected value on {{ forecast_end }}:</strong>
+      £{{ projected_value | default(0) | round(2) }}<br>
+      Return: {{ return_pct | default(0) | round(2) }} %
+
+    </div>
+  {% endif %}
+
+  {{ table|safe }}
+
+  {% if price_plot %}
+    <h4 class="mt-4">Predicted Closing Prices</h4>
+    <img class="img-fluid" src="data:image/png;base64,{{ price_plot }}" alt="Price plot">
+  {% endif %}
+
+  {% if return_plot %}
+    <h4 class="mt-4">Daily Return Forecast</h4>
+    <img class="img-fluid" src="data:image/png;base64,{{ return_plot }}" alt="Return plot">
+  {% endif %}
+
+</body>
+</html>
+
+
+
+

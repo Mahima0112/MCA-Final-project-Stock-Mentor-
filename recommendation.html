@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>StockMentor – Investment Recommendation</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/logo.svg') }}">
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Quick page‑specific styles -->
+  <style>
+    /* 1. Dark slate background */
+    body{
+      background:linear-gradient(135deg,#15202b 0%,#1e2c3b 50%,#27394b 100%);
+      
+      font-family:'Segoe UI',sans-serif;
+      color:#f1f4f8;
+      min-height:100vh;
+    }
+
+    /* 2. Card container */
+    .container{
+      max-width:900px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.20);
+      border-radius:18px;
+      padding:48px 40px;
+      box-shadow:0 6px 16px rgba(0,0,0,.45);
+      backdrop-filter:blur(6px);
+    }
+
+    /* 3. Navbar */
+    .navbar-sticky{
+      position:sticky;top:0;z-index:1030;
+      background:#1e2c3b;
+      border-bottom:1px solid #dee2e6;
+      padding:.5rem 1rem;
+    }
+    .nav-links a{
+      margin-right:1rem;
+      font-weight:500;
+      text-decoration:none;
+      color:#5fa8ff;
+      transition:.25s;
+    }
+    .nav-links a:hover{
+      font-size:18px;
+      text-decoration:underline;
+    }
+
+    /* 4. Scrolling disclaimer */
+    .disclaimer-strip{
+      background:#fff3cd;
+      color:#856404;
+      overflow:hidden;
+      white-space:nowrap;
+      border-bottom:1px solid rgba(0,0,0,.15);
+    }
+    .disclaimer-text{
+      display:inline-block;
+      padding-left:100%;
+      animation:scroll 18s linear infinite;
+    }
+    @keyframes scroll{
+      0%{transform:translateX(0)}
+      100%{transform:translateX(-100%)}
+    }
+
+    /* 5. Headings & lists */
+    h2,h3,h4{color:#ffffff;font-weight:600}
+    ul{list-style:none;padding-left:0}
+    li{margin-bottom:10px}
+
+    /* 6. Buttons */
+    .btn-primary{
+      background:#5fa8ff;border-color:#5fa8ff;font-weight:600;
+    }
+    .btn-primary:hover,.btn-primary:focus{
+      background:#4c90e0;border-color:#4c90e0;
+    }
+
+    /* 7. Images */
+    img{
+      width:100%;max-width:800px;border-radius:10px;
+      box-shadow:0 6px 16px rgba(0,0,0,.45);margin-bottom:20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky navbar -->
+  <nav class="navbar-sticky">
+    <div class="nav-links">
+      <a href="{{ url_for('index') }}">🏠 Home</a>
+      <a href="{{ url_for('spx_forecast') }}">S&amp;P Page</a>
+      <a href="{{ url_for('dax_forecast') }}">DAX Page</a>
+      <a href="{{ url_for('ftse_forecast') }}">FTSE Page</a>
+      <a href="{{ url_for('nikkei_forecast') }}">Nikkei Page</a>
+    </div>
+  </nav>
+
+  <!-- Continuous disclaimer just below navbar -->
+  <div class="disclaimer-strip mb-3">
+    <span class="disclaimer-text">
+      Forecasts are for informational purposes only and should not be considered financial advice. Past performance is not indicative of future results.
+    </span>
+  </div>
+
+  <div class="container">
+    <h2>Recommended Index: {{ best_index }}</h2>
+    <p>{{ reason }}</p>
+
+    <h3>Total Scores</h3>
+    <ul>
+      {% for index, score in total_score.items() %}
+        <li>{{ index }}: {{ score|round(2) }}</li>
+      {% endfor %}
+    </ul>
+
+    <h3>Market Returns (%)</h3>
+    <ul>
+      {% for index, value in market_return.items() %}
+        <li>{{ index }}: {{ value|round(2) }}%</li>
+      {% endfor %}
+    </ul>
+
+    <h3>Visuals</h3>
+    <img src="{{ recommendation_plot_url }}" alt="Investment Scores">
+    <img src="{{ close_price_plot_url }}" alt="Close Prices Over Time">
+    <img src="{{ return_pie_chart_url }}" alt="Return Distribution Pie Chart">
+  </div>
+
+</body>
+</html>

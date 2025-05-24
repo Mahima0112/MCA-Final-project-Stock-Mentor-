@@ -1,0 +1,99 @@
+/* ---  style.css  -------------------------------------------------- */
+
+/* 1. Page background */
+body {
+    /* subtle diagonal slate-blue gradient */
+    background: linear-gradient(135deg, #15202b 0%, #1e2c3b 50%, #27394b 100%);
+    min-height: 100vh;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    color: #f1f4f8;
+}
+
+/* 2. Section headings */
+h2, h4 {
+    color: #e8edf2;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* 3. Form area */
+form {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(6px);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+}
+
+/* form inputs */
+form .form-control {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #e5e9ef;
+}
+
+form .form-control:focus {
+    border-color: #5fa8ff;
+    box-shadow: 0 0 0 0.1rem rgba(95, 168, 255, 0.35);
+}
+
+/* 4. Bootstrap ‘alert’ showing projected value */
+.alert-info {
+    background: rgba(31, 41, 55, 0.85);
+    border: 1px solid rgba(95, 168, 255, 0.35);
+    color: #d7e3f3;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* 5. Table containing forecast data */
+.table-bordered {
+    background: rgba(255, 255, 255, 0.04);
+    color: #e3e7ec;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.table-bordered thead th {
+    background: rgba(95, 168, 255, 0.15);
+    color: #f1f4f8;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.12);
+}
+
+.table-bordered td, .table-bordered th {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* 6. Images (plots) */
+img.img-fluid {
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+    margin-bottom: 1.5rem;
+}
+
+/* 7. Buttons */
+.btn-primary {
+    background: #5fa8ff;
+    border-color: #5fa8ff;
+    font-weight: 600;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background: #4c90e0;
+    border-color: #4c90e0;
+}
+
+/* 8. Small screens – stack the form nicely */
+@media (max-width: 576px) {
+    form .col-auto {
+        flex: 1 1 100%;
+    }
+    form .btn {
+        width: 100%;
+    }
+}
+
+  /* right‑align only the table content */
+  .table-bordered td{
+    text-align: right;   /* numbers / text now flush to the right edge */
+  }

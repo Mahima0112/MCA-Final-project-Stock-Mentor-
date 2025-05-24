@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ stock }} Forecast</title>
+</head>
+<body>
+    <h1>{{ stock }} Forecast</h1>
+
+    <form method="POST">
+        <label for="end_date">Select End Date:</label>
+        <input type="date" id="end_date" name="end_date" required>
+        <button type="submit">Forecast</button>
+    </form>
+
+    {% if plot %}
+        <h2>Forecasted Data for {{ stock }}</h2>
+        <img src="data:image/png;base64,{{ plot }}" alt="Forecasted Plot">
+        <h3>Predicted Values</h3>
+        <div>
+            {{ table|safe }}
+        </div>
+    {% endif %}
+</body>
+</html>
